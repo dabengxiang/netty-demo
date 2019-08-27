@@ -1,5 +1,7 @@
-package com.masami.protocol.command;
+package com.masami.protocol.command.request;
 
+import com.masami.protocol.command.Command;
+import com.masami.protocol.command.Packet;
 import lombok.Data;
 
 /**

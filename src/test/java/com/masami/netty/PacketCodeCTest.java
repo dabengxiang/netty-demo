@@ -2,10 +2,11 @@ package com.masami.netty;
 
 import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
-import com.masami.protocol.command.LoginRequestPacket;
+import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.Packet;
 import com.masami.protocol.command.PacketCodeC;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class PacketCodeCTest {
         loginRequestPacket.setPassword("password");
 
         PacketCodeC packetCodeC = new PacketCodeC();
-        ByteBuf byteBuf = packetCodeC.encode(loginRequestPacket);
+        ByteBuf byteBuf = packetCodeC.encode(ByteBufAllocator.DEFAULT, loginRequestPacket);
         Packet decodedPacket = packetCodeC.decode(byteBuf);
 
         Assert.assertArrayEquals(serializer.serialize(loginRequestPacket), serializer.serialize(decodedPacket));

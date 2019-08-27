@@ -2,11 +2,11 @@ package com.masami.protocol.command;
 
 import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.masami.protocol.command.request.LoginRequestPacket;
+import com.masami.protocol.command.response.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +30,14 @@ public class PacketCodeC {
         serializerMap.put(jsonSerializer.getSerializerAlogrithm(),jsonSerializer);
 
         commandMap.put(Command.LOGIN_REQUEST,LoginRequestPacket.class);
+        commandMap.put(Command.LOGIN_RESPONSE,LoginResponsePacket.class);
+
 
     }
 
 
-    public ByteBuf encode(Packet packet){
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+    public static ByteBuf encode(ByteBufAllocator byteBufAllocator,Packet packet){
+        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
         Serializer defaultSerializer = Serializer.DEFAULT;
         byte[] data = defaultSerializer.serialize(packet);
         byteBuf.writeInt(MAGIC_NUMBER);
@@ -47,7 +49,7 @@ public class PacketCodeC {
         return byteBuf;
     }
 
-    public Packet decode(ByteBuf byteBuf){
+    public static Packet decode(ByteBuf byteBuf){
 
         //跳过魔数
         byteBuf.skipBytes(4);
