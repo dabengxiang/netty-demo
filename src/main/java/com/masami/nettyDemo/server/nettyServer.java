@@ -1,10 +1,11 @@
-package com.masami.nettyDemo;
+package com.masami.nettyDemo.server;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -32,23 +33,14 @@ public class nettyServer {
                 .childAttr(childAttr,"childAttr")
                 .childHandler(new ChannelInitializer() {
                     protected void initChannel(Channel channel) throws Exception {
-                        System.out.println(channel.attr(childAttr).get());
-//                        System.out.println(channel.attr(AttributeKey.newInstance("attr")));
-                        channel.pipeline().addLast(new StringDecoder());
-                        channel.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
-                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) throws Exception {
-                                System.out.println(msg);
-
-                            }
-                        });
+                        channel.pipeline().addLast(new FirstServerHandler());
                     }
                 }).childOption(ChannelOption.SO_KEEPALIVE,true)
                 .childOption(ChannelOption.TCP_NODELAY,true)
                 .option(ChannelOption.SO_BACKLOG,1024);
-        bind(serverBoostrap,8887);
+                bind(serverBoostrap,8000);
 
     }
-
 
     //自动绑定递增端口
     public static void bind(final ServerBootstrap serverBoostrap , final int port){
@@ -61,10 +53,8 @@ public class nettyServer {
                     System.out.println("绑定端口:" + port + "失败");
                     bind(serverBoostrap,port+1);
                 }
-
             }
         });
-
     }
 
 }

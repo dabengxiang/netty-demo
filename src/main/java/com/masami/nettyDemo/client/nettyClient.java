@@ -1,4 +1,4 @@
-package com.masami.nettyDemo;
+package com.masami.nettyDemo.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -7,7 +7,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -27,16 +26,17 @@ public class nettyClient {
         Bootstrap bootstrap = new Bootstrap();
         NioEventLoopGroup group = new NioEventLoopGroup();
         bootstrap.group(group).channel(NioSocketChannel.class)
+                .attr(AttributeKey.newInstance("clientName"), "nettyClient")
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS,5000)
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<Channel>() {
                     protected void initChannel(Channel channel) throws Exception {
-                        channel.pipeline().addLast(new StringEncoder());
+                        channel.pipeline().addLast(new FirstClientHandler());
                     }
                 });
-        bootstrap.attr(AttributeKey.newInstance("clientName"), "nettyClient");
-        bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS,5000)
-                .option(ChannelOption.SO_KEEPALIVE, true)
-                .option(ChannelOption.TCP_NODELAY, true);
-        connect(bootstrap, "127.0.0.1", 8886, 3);
+
+        connect(bootstrap, "127.0.0.1", 8000, 3);
 
 
 
@@ -67,8 +67,6 @@ public class nettyClient {
                 bootstrap.config().group().schedule(() -> connect(bootstrap, ip, port, retry - 1), delay, TimeUnit.SECONDS);
             }
         });
-
-
         return channelFuture;
 
     }
