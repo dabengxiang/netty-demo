@@ -1,5 +1,9 @@
 package com.masami.nettyDemo.server;
 
+import com.masami.nettyDemo.codec.PacketDecoder;
+import com.masami.nettyDemo.codec.PacketEncoder;
+import com.masami.nettyDemo.server.handler.LoginRequestHandler;
+import com.masami.nettyDemo.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -33,7 +37,12 @@ public class nettyServer {
                 .childAttr(childAttr,"childAttr")
                 .childHandler(new ChannelInitializer() {
                     protected void initChannel(Channel channel) throws Exception {
-                        channel.pipeline().addLast(new FirstServerHandler());
+                        channel.pipeline().addLast(new PacketDecoder());
+                        channel.pipeline().addLast(new LoginRequestHandler());
+                        channel.pipeline().addLast(new MessageRequestHandler());
+                        channel.pipeline().addLast(new PacketEncoder());
+
+
                     }
                 }).childOption(ChannelOption.SO_KEEPALIVE,true)
                 .childOption(ChannelOption.TCP_NODELAY,true)

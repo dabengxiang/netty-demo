@@ -1,4 +1,4 @@
-package com.masami.protocol.command.request;
+package com.masami.protocol.command.response;
 
 import com.masami.protocol.command.Command;
 import com.masami.protocol.command.Packet;

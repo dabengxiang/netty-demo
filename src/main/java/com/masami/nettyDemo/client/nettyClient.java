@@ -1,10 +1,12 @@
 package com.masami.nettyDemo.client;
 
+import com.masami.nettyDemo.client.handler.LoginResponseHandler;
+import com.masami.nettyDemo.client.handler.MessageRepsponseHandler;
+import com.masami.nettyDemo.codec.PacketDecoder;
+import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.utils.LoginUtil;
-import com.masami.protocol.command.PacketCodeC;
 import com.masami.protocol.command.request.MessageRequestPacket;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -37,18 +39,19 @@ public class nettyClient {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<Channel>() {
                     protected void initChannel(Channel channel) throws Exception {
-                        channel.pipeline().addLast(new FirstClientHandler());
+                        channel.pipeline().addLast(new PacketDecoder());
+                        channel.pipeline().addLast(new LoginResponseHandler());
+                        channel.pipeline().addLast(new MessageRepsponseHandler());
+                        channel.pipeline().addLast(new PacketEncoder());
                         startConsoleThread(channel);
+
+
                     }
                 });
 
         connect(bootstrap, "127.0.0.1", 8000, 3);
 
-
-
-
     }
-
 
     /**
      * 重新连接
@@ -87,8 +90,7 @@ public class nettyClient {
                     String msg = scanner.nextLine();
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(msg);
-                    ByteBuf byteBuf = PacketCodeC.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(packet);
                 }
             }
 

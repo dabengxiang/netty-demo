@@ -4,10 +4,9 @@ import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
 import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.request.MessageRequestPacket;
-import com.masami.protocol.command.request.MessageResponsePacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
+import com.masami.protocol.command.response.MessageResponsePacket;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,8 +40,7 @@ public class PacketCodeC {
     }
 
 
-    public static ByteBuf encode(ByteBufAllocator byteBufAllocator,Packet packet){
-        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
+    public static ByteBuf encode( ByteBuf byteBuf ,Packet packet){
         Serializer defaultSerializer = Serializer.DEFAULT;
         byte[] data = defaultSerializer.serialize(packet);
         byteBuf.writeInt(MAGIC_NUMBER);
