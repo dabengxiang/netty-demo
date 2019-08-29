@@ -3,12 +3,13 @@ package com.masami.nettyDemo.server;
 import com.masami.protocol.command.Packet;
 import com.masami.protocol.command.PacketCodeC;
 import com.masami.protocol.command.request.LoginRequestPacket;
+import com.masami.protocol.command.request.MessageRequestPacket;
+import com.masami.protocol.command.request.MessageResponsePacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.nio.charset.Charset;
 import java.util.Date;
 
 /**
@@ -41,6 +42,13 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
             ctx.channel().writeAndFlush(sendByteBuf);
 
+        }else if (packet instanceof MessageRequestPacket){
+            MessageRequestPacket messageRequestPacket = (MessageRequestPacket) packet;
+            System.out.println(new Date() + "，收到消息：" + messageRequestPacket.getMessage());
+            MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+            messageResponsePacket.setMessage("服务端回复【" + messageRequestPacket.getMessage() + "】");
+            ByteBuf responseByteBuf = PacketCodeC.encode(ctx.alloc(), messageResponsePacket);
+            ctx.channel().writeAndFlush(responseByteBuf);
         }
 
     }

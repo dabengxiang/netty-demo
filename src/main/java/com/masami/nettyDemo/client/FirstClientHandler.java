@@ -1,14 +1,15 @@
 package com.masami.nettyDemo.client;
 
+import com.masami.nettyDemo.utils.LoginUtil;
 import com.masami.protocol.command.Packet;
 import com.masami.protocol.command.PacketCodeC;
 import com.masami.protocol.command.request.LoginRequestPacket;
+import com.masami.protocol.command.request.MessageResponsePacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.nio.charset.Charset;
 import java.util.Date;
 
 /**
@@ -41,12 +42,26 @@ public class FirstClientHandler  extends ChannelInboundHandlerAdapter {
 
             if(loginResponsePacket.isSuccess()){
                 System.out.println(new Date() + "登录成功");
+                LoginUtil.markAsLogin(ctx.channel());  //给attr标志，标志已经登陆了
+
             }else{
                 System.out.println(new Date() + "登录失败，原因是：" + loginResponsePacket.getReason());
 
             }
 
         }
+        else if(packet  instanceof MessageResponsePacket){
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println(new Date() + ": 收到服务端的消息: " + messageResponsePacket.getMessage());
+
+        }
         super.channelRead(ctx, msg);
     }
+
+
+
+
+
+
+
 }

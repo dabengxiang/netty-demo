@@ -3,6 +3,8 @@ package com.masami.protocol.command;
 import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
 import com.masami.protocol.command.request.LoginRequestPacket;
+import com.masami.protocol.command.request.MessageRequestPacket;
+import com.masami.protocol.command.request.MessageResponsePacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -31,6 +33,9 @@ public class PacketCodeC {
 
         commandMap.put(Command.LOGIN_REQUEST,LoginRequestPacket.class);
         commandMap.put(Command.LOGIN_RESPONSE,LoginResponsePacket.class);
+        commandMap.put(Command.MESSAGE_REQUEST , MessageRequestPacket.class);
+
+        commandMap.put(Command.MESSAGE_RESPONSE , MessageResponsePacket.class);
 
 
     }

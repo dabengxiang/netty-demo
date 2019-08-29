@@ -1,6 +1,10 @@
 package com.masami.nettyDemo.client;
 
+import com.masami.nettyDemo.utils.LoginUtil;
+import com.masami.protocol.command.PacketCodeC;
+import com.masami.protocol.command.request.MessageRequestPacket;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -11,6 +15,7 @@ import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,6 +38,7 @@ public class nettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     protected void initChannel(Channel channel) throws Exception {
                         channel.pipeline().addLast(new FirstClientHandler());
+                        startConsoleThread(channel);
                     }
                 });
 
@@ -69,6 +75,24 @@ public class nettyClient {
         });
         return channelFuture;
 
+    }
+
+
+    private static void startConsoleThread(Channel channel){
+        new Thread(()->{
+            while(!Thread.interrupted()){
+                if(LoginUtil.isLogin(channel)){
+                    System.out.println("请输入信息发送至服务端");
+                    Scanner scanner = new Scanner(System.in);
+                    String msg = scanner.nextLine();
+                    MessageRequestPacket packet = new MessageRequestPacket();
+                    packet.setMessage(msg);
+                    ByteBuf byteBuf = PacketCodeC.encode(channel.alloc(), packet);
+                    channel.writeAndFlush(byteBuf);
+                }
+            }
+
+        }).start();
     }
 
 
