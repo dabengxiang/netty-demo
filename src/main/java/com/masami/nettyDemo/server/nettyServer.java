@@ -1,5 +1,11 @@
 package com.masami.nettyDemo.server;
 
+import com.masami.nettyDemo.server.handler.inbound.InBoundHandlerA;
+import com.masami.nettyDemo.server.handler.inbound.InBoundHandlerB;
+import com.masami.nettyDemo.server.handler.inbound.InBoundHandlerC;
+import com.masami.nettyDemo.server.handler.outbound.OutBoundHandlerA;
+import com.masami.nettyDemo.server.handler.outbound.OutBoundHandlerB;
+import com.masami.nettyDemo.server.handler.outbound.OutBoundHandlerC;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -33,7 +39,15 @@ public class nettyServer {
                 .childAttr(childAttr,"childAttr")
                 .childHandler(new ChannelInitializer() {
                     protected void initChannel(Channel channel) throws Exception {
-                        channel.pipeline().addLast(new FirstServerHandler());
+
+                        channel.pipeline().addLast(new InBoundHandlerA());
+                        channel.pipeline().addLast(new InBoundHandlerB());
+                        channel.pipeline().addLast(new InBoundHandlerC());
+
+                        // outBound，处理写数据的逻辑链
+                        channel.pipeline().addLast(new OutBoundHandlerA());
+                        channel.pipeline().addLast(new OutBoundHandlerB());
+                        channel.pipeline().addLast(new OutBoundHandlerC());
                     }
                 }).childOption(ChannelOption.SO_KEEPALIVE,true)
                 .childOption(ChannelOption.TCP_NODELAY,true)
