@@ -4,6 +4,7 @@ import com.masami.nettyDemo.client.handler.LoginResponseHandler;
 import com.masami.nettyDemo.client.handler.MessageRepsponseHandler;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
+import com.masami.nettyDemo.codec.Spliter;
 import com.masami.nettyDemo.utils.LoginUtil;
 import com.masami.protocol.command.request.MessageRequestPacket;
 import io.netty.bootstrap.Bootstrap;
@@ -39,6 +40,7 @@ public class nettyClient {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<Channel>() {
                     protected void initChannel(Channel channel) throws Exception {
+                        channel.pipeline().addLast(new Spliter());
                         channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new LoginResponseHandler());
                         channel.pipeline().addLast(new MessageRepsponseHandler());
@@ -88,9 +90,15 @@ public class nettyClient {
                     System.out.println("请输入信息发送至服务端");
                     Scanner scanner = new Scanner(System.in);
                     String msg = scanner.nextLine();
-                    MessageRequestPacket packet = new MessageRequestPacket();
-                    packet.setMessage(msg);
-                    channel.writeAndFlush(packet);
+
+
+                    for (int i = 0; i < 100; i++) {
+                        MessageRequestPacket packet = new MessageRequestPacket();
+                        packet.setMessage("netty的拆包过程和自己写手工拆包并没有什么不同，都是将字节累加到一个容器里面");
+                        channel.writeAndFlush(packet);
+                    }
+
+
                 }
             }
 
