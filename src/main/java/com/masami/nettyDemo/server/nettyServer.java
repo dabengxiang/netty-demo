@@ -3,6 +3,7 @@ package com.masami.nettyDemo.server;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
+import com.masami.nettyDemo.server.handler.LifeCyCleTestHandler;
 import com.masami.nettyDemo.server.handler.LoginRequestHandler;
 import com.masami.nettyDemo.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -39,6 +40,7 @@ public class nettyServer {
                 .childHandler(new ChannelInitializer() {
                     protected void initChannel(Channel channel) throws Exception {
                         channel.pipeline().addLast(new Spliter());
+                        channel.pipeline().addLast(new LifeCyCleTestHandler());
                         channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new LoginRequestHandler());
                         channel.pipeline().addLast(new MessageRequestHandler());
