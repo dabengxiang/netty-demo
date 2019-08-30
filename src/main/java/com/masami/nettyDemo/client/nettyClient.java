@@ -1,9 +1,12 @@
 package com.masami.nettyDemo.client;
 
+import com.masami.nettyDemo.client.handler.LoginResponseHandler;
 import com.masami.nettyDemo.client.handler.MessageRepsponseHandler;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
+import com.masami.nettyDemo.utils.SessionUtil;
+import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.request.MessageRequestPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -40,7 +43,7 @@ public class nettyClient {
                     protected void initChannel(Channel channel) throws Exception {
                         channel.pipeline().addLast(new Spliter());
                         channel.pipeline().addLast(new PacketDecoder());
-//                        channel.pipeline().addLast(new LoginResponseHandler());
+                        channel.pipeline().addLast(new LoginResponseHandler());
                         channel.pipeline().addLast(new MessageRepsponseHandler());
                         channel.pipeline().addLast(new PacketEncoder());
                         startConsoleThread(channel);
@@ -83,26 +86,34 @@ public class nettyClient {
 
     private static void startConsoleThread(Channel channel){
         new Thread(()->{
+            Scanner scanner = new Scanner(System.in);
             while(!Thread.interrupted()){
-//                if(LoginUtil.isLogin(channel)){
-                    System.out.println("请输入信息发送至服务端");
-                    Scanner scanner = new Scanner(System.in);
+                if(SessionUtil.isLogin(channel)){
+                    System.out.println("请输入用户名和密码");
                     String msg = scanner.nextLine();
                     channel.writeAndFlush(new MessageRequestPacket(msg));
+                    writeForReponse();
+                }else{
+                    System.out.println("请输入用户名登陆：");
+                    String userName = scanner.nextLine();
+                    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+                    loginRequestPacket.setUserName(userName);
+                    loginRequestPacket.setPassword("123456");
+                    channel.writeAndFlush(loginRequestPacket);
 
 
-//                    for (int i = 0; i < 100; i++) {
-//                        MessageRequestPacket packet = new MessageRequestPacket();
-//                        packet.setMessage("netty的拆包过程和自己写手工拆包并没有什么不同，都是将字节累加到一个容器里面");
-//                        channel.writeAndFlush(packet);
-//                    }
 
-
-//                }
+                }
             }
 
         }).start();
     }
 
-
+    public static void writeForReponse(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

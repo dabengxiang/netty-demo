@@ -26,5 +26,6 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
             System.out.println("当前连接登录验证完毕，无需再次验证, AuthHandler 被移除");
         } else {
             System.out.println("无登录验证，强制关闭连接!");
-        }    }
+        }
+    }
 }
