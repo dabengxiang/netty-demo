@@ -15,4 +15,9 @@ public class MessageRepsponseHandler extends SimpleChannelInboundHandler<Message
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageResponsePacket messageResponsePacket) throws Exception {
         System.out.println(new Date() + ",收到服务端的数据：" + messageResponsePacket.getMessage());
     }
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("客户端被关闭");
+    }
+
 }

@@ -18,4 +18,8 @@ public class MessageRequestPacket extends Packet {
     public byte getCommand() {
         return Command.MESSAGE_REQUEST;
     }
+
+    public MessageRequestPacket(String message) {
+        this.message = message;
+    }
 }

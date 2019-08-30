@@ -1,5 +1,6 @@
 package com.masami.nettyDemo.server.handler;
 
+import com.masami.nettyDemo.utils.LoginUtil;
 import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,6 +18,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         if(vaild(loginRequestPacket)){
             responsePacket.setSuccess(true);
+            LoginUtil.markAsLogin(ctx.channel());
             System.out.println(new Date() + ": 登录成功!");
         }else{
             responsePacket.setReason("账号密码校验失败");
