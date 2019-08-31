@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class MessageRequestPacket extends Packet {
 
+    private String userId;
     private String message;
 
 
@@ -19,7 +20,8 @@ public class MessageRequestPacket extends Packet {
         return Command.MESSAGE_REQUEST;
     }
 
-    public MessageRequestPacket(String message) {
+    public MessageRequestPacket(String userId,String message) {
+        this.userId = userId;
         this.message = message;
     }
 }

@@ -19,12 +19,12 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         if(vaild(loginRequestPacket)){
-            System.out.println(new Date() + ": 登录成功!");
             String userId = randomUserId();
             SessionUtil.bindSession(new Session(userId,loginRequestPacket.getUserName()),ctx.channel());
             responsePacket.setSuccess(true);
             responsePacket.setUserId(userId);
             responsePacket.setUserName(loginRequestPacket.getUserName());
+            System.out.println(new Date() + ": 登录成功!" + "userId:" + userId);
 
 
         }else{

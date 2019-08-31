@@ -24,15 +24,23 @@ public class SessionUtil  {
 
     }
 
-
     public  void unBindSession(Channel channel){
 
     }
 
-
     public static  boolean isLogin(Channel channel){
         Attribute<Session> attr = channel.attr(Attributes.SESSION);
         return attr.get()!=null;
+
+    }
+
+
+    public static  Channel getChannel(String userId){
+        return userIdChannelMap.get(userId);
+    }
+
+    public static Session getSession(Channel channel){
+        return channel.attr(Attributes.SESSION).get();
 
     }
 }

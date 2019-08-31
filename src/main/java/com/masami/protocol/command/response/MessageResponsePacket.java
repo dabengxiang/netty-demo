@@ -12,6 +12,10 @@ import lombok.Data;
 public class MessageResponsePacket extends Packet {
     private String message;
 
+    private String formUserId;
+
+    private String fromUserName;
+
 
     @Override
     public byte getCommand() {

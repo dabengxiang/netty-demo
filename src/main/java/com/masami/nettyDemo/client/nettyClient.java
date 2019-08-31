@@ -89,10 +89,10 @@ public class nettyClient {
             Scanner scanner = new Scanner(System.in);
             while(!Thread.interrupted()){
                 if(SessionUtil.isLogin(channel)){
-                    System.out.println("请输入用户名和密码");
-                    String msg = scanner.nextLine();
-                    channel.writeAndFlush(new MessageRequestPacket(msg));
-                    writeForReponse();
+                    System.out.println("请输入要发送的用户和消息");
+                    String userId = scanner.next();
+                    String msg = scanner.next();
+                    channel.writeAndFlush(new MessageRequestPacket(userId,msg));
                 }else{
                     System.out.println("请输入用户名登陆：");
                     String userName = scanner.nextLine();
@@ -100,7 +100,7 @@ public class nettyClient {
                     loginRequestPacket.setUserName(userName);
                     loginRequestPacket.setPassword("123456");
                     channel.writeAndFlush(loginRequestPacket);
-
+                    writeForReponse();
 
 
                 }
