@@ -2,9 +2,13 @@ package com.masami.protocol.command;
 
 import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
+import com.masami.protocol.command.request.CreateGroupRequestPacket;
 import com.masami.protocol.command.request.LoginRequestPacket;
+import com.masami.protocol.command.request.LogoutRequestPacket;
 import com.masami.protocol.command.request.MessageRequestPacket;
+import com.masami.protocol.command.response.CreateGroupRespnsePacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
+import com.masami.protocol.command.response.LogoutResponsePacket;
 import com.masami.protocol.command.response.MessageResponsePacket;
 import io.netty.buffer.ByteBuf;
 
@@ -35,6 +39,12 @@ public class PacketCodeC {
         commandMap.put(Command.MESSAGE_REQUEST , MessageRequestPacket.class);
 
         commandMap.put(Command.MESSAGE_RESPONSE , MessageResponsePacket.class);
+        commandMap.put(Command.CREATE_GROUP_REQUEST , CreateGroupRequestPacket.class);
+        commandMap.put(Command.LOG_OUT_REQUEST, LogoutRequestPacket.class);
+        commandMap.put(Command.LOG_OUT_RESPONSE, LogoutResponsePacket.class);
+
+        commandMap.put(Command.CREATE_GROUP_RESPONSE , CreateGroupRespnsePacket.class);
+
 
 
     }

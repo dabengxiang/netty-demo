@@ -1,6 +1,7 @@
 package com.masami.nettyDemo.server.handler;
 
 import com.masami.nettyDemo.session.Session;
+import com.masami.nettyDemo.utils.IDUtil;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
@@ -19,7 +20,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         if(vaild(loginRequestPacket)){
-            String userId = randomUserId();
+            String userId = IDUtil.randomUserId();
             SessionUtil.bindSession(new Session(userId,loginRequestPacket.getUserName()),ctx.channel());
             responsePacket.setSuccess(true);
             responsePacket.setUserId(userId);
@@ -39,7 +40,4 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         return true;
     }
 
-    private String randomUserId(){
-       return UUID.randomUUID().toString().split("-")[0];
-    }
 }

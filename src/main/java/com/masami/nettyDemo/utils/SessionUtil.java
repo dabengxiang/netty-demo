@@ -4,7 +4,9 @@ import com.masami.nettyDemo.attributes.Attributes;
 import com.masami.nettyDemo.session.Session;
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,6 +23,19 @@ public class SessionUtil  {
     public static void bindSession(Session session, Channel channel){
         userIdChannelMap.put(session.getUserId(),channel);
         channel.attr(Attributes.SESSION).set(session);
+
+    }
+
+    public static void unbindSession(Channel channel){
+
+        if(isLogin(channel)){
+            Session session = channel.attr(Attributes.SESSION).get();
+            if(session!=null){
+                userIdChannelMap.remove(session.getUserId());
+            }
+            channel.attr(Attributes.SESSION).set(null);
+            System.out.println(new Date() +session.getUserId() + " : "+session.getUserName() + "：退出登录成功");
+        }
 
     }
 

@@ -1,10 +1,15 @@
 package com.masami.nettyDemo.client;
 
+import com.masami.nettyDemo.client.console.ConsoleCommandManager;
+import com.masami.nettyDemo.client.console.LoginConsoleCommand;
+import com.masami.nettyDemo.client.handler.CreateGroupResponseHandler;
 import com.masami.nettyDemo.client.handler.LoginResponseHandler;
+import com.masami.nettyDemo.client.handler.LogoutReponseHandler;
 import com.masami.nettyDemo.client.handler.MessageRepsponseHandler;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
+import com.masami.nettyDemo.server.handler.CreateGroupRequestHandler;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.request.MessageRequestPacket;
@@ -46,6 +51,8 @@ public class nettyClient {
                         channel.pipeline().addLast(new LoginResponseHandler());
                         channel.pipeline().addLast(new MessageRepsponseHandler());
                         channel.pipeline().addLast(new PacketEncoder());
+                        channel.pipeline().addLast(new CreateGroupResponseHandler());
+                        channel.pipeline().addLast(new LogoutReponseHandler());
                         startConsoleThread(channel);
 
 
@@ -85,24 +92,18 @@ public class nettyClient {
 
 
     private static void startConsoleThread(Channel channel){
+
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+
         new Thread(()->{
             Scanner scanner = new Scanner(System.in);
             while(!Thread.interrupted()){
                 if(SessionUtil.isLogin(channel)){
-                    System.out.println("请输入要发送的用户和消息");
-                    String userId = scanner.next();
-                    String msg = scanner.next();
-                    channel.writeAndFlush(new MessageRequestPacket(userId,msg));
+                    consoleCommandManager.exec(scanner,channel);
                 }else{
-                    System.out.println("请输入用户名登陆：");
-                    String userName = scanner.nextLine();
-                    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-                    loginRequestPacket.setUserName(userName);
-                    loginRequestPacket.setPassword("123456");
-                    channel.writeAndFlush(loginRequestPacket);
+                    loginConsoleCommand.exec(scanner,channel);
                     writeForReponse();
-
-
                 }
             }
 

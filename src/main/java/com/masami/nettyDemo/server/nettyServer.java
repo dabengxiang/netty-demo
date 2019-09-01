@@ -3,9 +3,7 @@ package com.masami.nettyDemo.server;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
-import com.masami.nettyDemo.server.handler.AuthHandler;
-import com.masami.nettyDemo.server.handler.LoginRequestHandler;
-import com.masami.nettyDemo.server.handler.MessageRequestHandler;
+import com.masami.nettyDemo.server.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -45,6 +43,9 @@ public class nettyServer {
                         channel.pipeline().addLast(new AuthHandler());
                         channel.pipeline().addLast(new MessageRequestHandler());
                         channel.pipeline().addLast(new PacketEncoder());
+                        channel.pipeline().addLast(new CreateGroupRequestHandler());
+                        channel.pipeline().addLast(new LogoutRequestHandler());
+
 
 
                     }
