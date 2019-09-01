@@ -2,14 +2,9 @@ package com.masami.protocol.command;
 
 import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
-import com.masami.protocol.command.request.CreateGroupRequestPacket;
-import com.masami.protocol.command.request.LoginRequestPacket;
-import com.masami.protocol.command.request.LogoutRequestPacket;
-import com.masami.protocol.command.request.MessageRequestPacket;
-import com.masami.protocol.command.response.CreateGroupRespnsePacket;
-import com.masami.protocol.command.response.LoginResponsePacket;
-import com.masami.protocol.command.response.LogoutResponsePacket;
-import com.masami.protocol.command.response.MessageResponsePacket;
+import com.masami.nettyDemo.server.handler.JoinGroupRequestHandler;
+import com.masami.protocol.command.request.*;
+import com.masami.protocol.command.response.*;
 import io.netty.buffer.ByteBuf;
 
 import java.util.HashMap;
@@ -44,7 +39,15 @@ public class PacketCodeC {
         commandMap.put(Command.LOG_OUT_RESPONSE, LogoutResponsePacket.class);
 
         commandMap.put(Command.CREATE_GROUP_RESPONSE , CreateGroupRespnsePacket.class);
+        commandMap.put(Command.JOIN_GROUP_REQUEST , JoinGroupRequestPacket.class);
+        commandMap.put(Command.JOIN_GROUP_RESPONSE , JoinGroupResponsePacket.class);
 
+        commandMap.put(Command.LIST_GROUP_MEMBER_REQUEST , ListGroupMemberRequestPacket.class);
+        commandMap.put(Command.LIST_GROUP_MEMBER_RESPONSE , ListGroupMemberResponsePacket.class);
+
+
+        commandMap.put(Command.QUIT_GROUP_REQUEST , QuitGroupRequestPacket.class);
+        commandMap.put(Command.QUIT_GROUP_RESPONSE , QuitGroupResponsePacket.class);
 
 
     }

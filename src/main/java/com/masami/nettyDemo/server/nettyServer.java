@@ -45,6 +45,10 @@ public class nettyServer {
                         channel.pipeline().addLast(new PacketEncoder());
                         channel.pipeline().addLast(new CreateGroupRequestHandler());
                         channel.pipeline().addLast(new LogoutRequestHandler());
+                        channel.pipeline().addLast(new JoinGroupRequestHandler());
+
+                        channel.pipeline().addLast(new ListGroupMemberRequestHandler());
+                        channel.pipeline().addLast(new QuitGroupRequestHandler());
 
 
 

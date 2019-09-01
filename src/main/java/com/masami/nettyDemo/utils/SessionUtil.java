@@ -3,8 +3,8 @@ package com.masami.nettyDemo.utils;
 import com.masami.nettyDemo.attributes.Attributes;
 import com.masami.nettyDemo.session.Session;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import io.netty.util.Attribute;
-import io.netty.util.AttributeKey;
 
 import java.util.Date;
 import java.util.Map;
@@ -18,6 +18,8 @@ public class SessionUtil  {
 
 
     private static Map<String , Channel> userIdChannelMap = new ConcurrentHashMap();
+
+    private static Map<String ,ChannelGroup> channelGroupMap = new ConcurrentHashMap<>();
 
 
     public static void bindSession(Session session, Channel channel){
@@ -39,9 +41,6 @@ public class SessionUtil  {
 
     }
 
-    public  void unBindSession(Channel channel){
-
-    }
 
     public static  boolean isLogin(Channel channel){
         Attribute<Session> attr = channel.attr(Attributes.SESSION);
@@ -58,4 +57,14 @@ public class SessionUtil  {
         return channel.attr(Attributes.SESSION).get();
 
     }
+
+    public static void bindChannelGroup(String groupId, ChannelGroup channelGroup){
+        channelGroupMap.put(groupId,channelGroup);
+    }
+
+
+    public static ChannelGroup getChannelGroup(String groupId){
+        return channelGroupMap.get(groupId);
+    }
+
 }

@@ -2,14 +2,13 @@ package com.masami.nettyDemo.client;
 
 import com.masami.nettyDemo.client.console.ConsoleCommandManager;
 import com.masami.nettyDemo.client.console.LoginConsoleCommand;
-import com.masami.nettyDemo.client.handler.CreateGroupResponseHandler;
-import com.masami.nettyDemo.client.handler.LoginResponseHandler;
-import com.masami.nettyDemo.client.handler.LogoutReponseHandler;
-import com.masami.nettyDemo.client.handler.MessageRepsponseHandler;
+import com.masami.nettyDemo.client.handler.*;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
 import com.masami.nettyDemo.server.handler.CreateGroupRequestHandler;
+import com.masami.nettyDemo.server.handler.JoinGroupRequestHandler;
+import com.masami.nettyDemo.server.handler.QuitGroupRequestHandler;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.request.MessageRequestPacket;
@@ -53,6 +52,11 @@ public class nettyClient {
                         channel.pipeline().addLast(new PacketEncoder());
                         channel.pipeline().addLast(new CreateGroupResponseHandler());
                         channel.pipeline().addLast(new LogoutReponseHandler());
+                        channel.pipeline().addLast(new JoinGroupResponseHandler());
+                        channel.pipeline().addLast(new ListGroupMemberResponseHandler());
+                        channel.pipeline().addLast(new QuitGroupResponseHandler() );
+
+
                         startConsoleThread(channel);
 
 
