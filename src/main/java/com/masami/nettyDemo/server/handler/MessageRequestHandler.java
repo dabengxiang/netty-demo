@@ -27,7 +27,7 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
         Channel channel = SessionUtil.getChannel(messageRequestPacket.getUserId());
 
         if(channel != null && SessionUtil.isLogin(channel)){
-            ctx.channel().writeAndFlush(messageResponsePacket);
+            channel.writeAndFlush(messageResponsePacket);
         }else{
             System.out.println("该用户还没有上线！");
         }
