@@ -50,6 +50,7 @@ public class nettyServer {
                         channel.pipeline().addLast(new ListGroupMemberRequestHandler());
                         channel.pipeline().addLast(new QuitGroupRequestHandler());
 
+                        channel.pipeline().addLast(new GroupMessageRequestHandler() );
 
 
                     }

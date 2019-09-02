@@ -48,4 +48,13 @@ public class ListGroupMemberRequestHandler extends SimpleChannelInboundHandler<L
 
         ctx.channel().writeAndFlush(responsePacket);
     }
+
+
+    public static ListGroupMemberRequestHandler INSTANCE = new ListGroupMemberRequestHandler();
+
+
+
+    public static ListGroupMemberRequestHandler getInstance (){
+        return INSTANCE;
+    }
 }

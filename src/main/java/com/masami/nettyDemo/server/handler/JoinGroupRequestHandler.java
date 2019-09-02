@@ -45,5 +45,14 @@ public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGro
     }
 
 
+    public static JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
+
+
+
+    public static JoinGroupRequestHandler getInstance (){
+        return INSTANCE;
+    }
+
+
 
 }

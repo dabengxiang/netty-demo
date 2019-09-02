@@ -9,7 +9,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * @Author: gyc
@@ -38,6 +37,14 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
     public boolean vaild (LoginRequestPacket loginRequestPacket){
         return true;
+    }
+
+    public static LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+
+
+    public static LoginRequestHandler getInstance (){
+        return INSTANCE;
     }
 
 }

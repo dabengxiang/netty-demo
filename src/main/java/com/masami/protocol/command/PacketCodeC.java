@@ -2,7 +2,6 @@ package com.masami.protocol.command;
 
 import com.masami.nettyDemo.serialize.Serializer;
 import com.masami.nettyDemo.serialize.impl.JSONSerializer;
-import com.masami.nettyDemo.server.handler.JoinGroupRequestHandler;
 import com.masami.protocol.command.request.*;
 import com.masami.protocol.command.response.*;
 import io.netty.buffer.ByteBuf;
@@ -50,6 +49,8 @@ public class PacketCodeC {
         commandMap.put(Command.QUIT_GROUP_RESPONSE , QuitGroupResponsePacket.class);
 
 
+        commandMap.put(Command.GROUP_MESSAGE_REQUEST , GroupMessageRequestPacket.class);
+        commandMap.put(Command.GROUP_MESSAGE_RESPONSE , GroupMessageResponsePacket.class);
     }
 
 

@@ -32,4 +32,13 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
              System.out.println("该用户还没有上线！");
         }
     }
+
+
+    public static MessageRequestHandler INSTANCE = new MessageRequestHandler();
+
+
+
+    public static MessageRequestHandler getInstance (){
+        return INSTANCE;
+    }
 }

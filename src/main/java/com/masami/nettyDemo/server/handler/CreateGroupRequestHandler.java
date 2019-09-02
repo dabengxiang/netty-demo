@@ -1,6 +1,5 @@
 package com.masami.nettyDemo.server.handler;
 
-import com.masami.nettyDemo.session.Session;
 import com.masami.nettyDemo.utils.IDUtil;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.CreateGroupRequestPacket;
@@ -47,6 +46,15 @@ public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<Creat
         System.out.println("群里面有：" + createGroupRespnsePacket.getUserNameList());
         channelsGroup.writeAndFlush(createGroupRespnsePacket);
 
+    }
+
+
+    public static CreateGroupRequestHandler INSTANCE = new CreateGroupRequestHandler();
+
+
+
+    public static CreateGroupRequestHandler getInstance (){
+        return INSTANCE;
     }
 
 

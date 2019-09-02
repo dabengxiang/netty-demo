@@ -3,7 +3,6 @@ package com.masami.nettyDemo.server.handler;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.QuitGroupRequestPacket;
 import com.masami.protocol.command.response.QuitGroupResponsePacket;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -31,5 +30,14 @@ public class QuitGroupRequestHandler extends SimpleChannelInboundHandler<QuitGro
         }
 
         ctx.channel().writeAndFlush(responsePacket);
+    }
+
+
+    public static QuitGroupRequestHandler INSTANCE = new QuitGroupRequestHandler();
+
+
+
+    public static QuitGroupRequestHandler getInstance (){
+        return INSTANCE;
     }
 }

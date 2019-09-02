@@ -18,4 +18,13 @@ public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutRequ
         SessionUtil.unbindSession(ctx.channel());
         ctx.writeAndFlush(LogoutResponsePacket.SUCCESS());
     }
+
+
+    public static LogoutRequestHandler INSTANCE = new LogoutRequestHandler();
+
+
+
+    public static LogoutRequestHandler getInstance (){
+        return INSTANCE;
+    }
 }

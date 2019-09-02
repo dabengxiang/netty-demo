@@ -6,12 +6,7 @@ import com.masami.nettyDemo.client.handler.*;
 import com.masami.nettyDemo.codec.PacketDecoder;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
-import com.masami.nettyDemo.server.handler.CreateGroupRequestHandler;
-import com.masami.nettyDemo.server.handler.JoinGroupRequestHandler;
-import com.masami.nettyDemo.server.handler.QuitGroupRequestHandler;
 import com.masami.nettyDemo.utils.SessionUtil;
-import com.masami.protocol.command.request.LoginRequestPacket;
-import com.masami.protocol.command.request.MessageRequestPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -56,6 +51,7 @@ public class nettyClient {
                         channel.pipeline().addLast(new ListGroupMemberResponseHandler());
                         channel.pipeline().addLast(new QuitGroupResponseHandler() );
 
+                        channel.pipeline().addLast(new GroupMessageResponseHandler() );
 
                         startConsoleThread(channel);
 

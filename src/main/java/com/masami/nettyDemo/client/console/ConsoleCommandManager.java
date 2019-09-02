@@ -1,6 +1,5 @@
 package com.masami.nettyDemo.client.console;
 
-import com.masami.nettyDemo.session.Session;
 import com.masami.nettyDemo.utils.SessionUtil;
 import io.netty.channel.Channel;
 
@@ -25,7 +24,7 @@ public class ConsoleCommandManager implements ConsoleCommand {
         commandMap.put("joinGroup",new JoinGroupConsoleCommand());
         commandMap.put("listGroupMember",new ListGroupMemberConsoleCommand());
         commandMap.put("quitGroup",new QuitGroupConsoleCommand());
-
+        commandMap.put("groupMessage",new groupMessageConsoleCommand());
     }
 
 
