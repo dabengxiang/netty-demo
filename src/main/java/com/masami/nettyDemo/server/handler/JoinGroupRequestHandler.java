@@ -3,6 +3,7 @@ package com.masami.nettyDemo.server.handler;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.JoinGroupRequestPacket;
 import com.masami.protocol.command.response.JoinGroupResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -12,6 +13,7 @@ import io.netty.channel.group.ChannelGroup;
  * Author:gyc
  * Desc:
  */
+@ChannelHandler.Sharable
 public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket joinGroupRequestPacket) throws Exception {

@@ -2,6 +2,7 @@ package com.masami.nettyDemo.server.handler;
 
 import com.masami.protocol.command.Command;
 import com.masami.protocol.command.Packet;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  * @Author: gyc
  * @Date: 2019/9/2 14:29
  */
+@ChannelHandler.Sharable
 public class IMServerHandler extends SimpleChannelInboundHandler<Packet> {
 
 

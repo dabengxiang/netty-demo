@@ -5,6 +5,7 @@ import com.masami.nettyDemo.utils.IDUtil;
 import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.LoginRequestPacket;
 import com.masami.protocol.command.response.LoginResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @Author: gyc
  * @Date: 2019/8/29 18:24
  */
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {

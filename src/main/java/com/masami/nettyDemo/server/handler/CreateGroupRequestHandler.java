@@ -5,6 +5,7 @@ import com.masami.nettyDemo.utils.SessionUtil;
 import com.masami.protocol.command.request.CreateGroupRequestPacket;
 import com.masami.protocol.command.response.CreateGroupRespnsePacket;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -17,6 +18,7 @@ import java.util.List;
  * Author:gyc
  * Desc:
  */
+@ChannelHandler.Sharable
 public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<CreateGroupRequestPacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupRequestPacket createGroupPacket) throws Exception {

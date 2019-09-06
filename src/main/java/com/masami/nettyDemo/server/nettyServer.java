@@ -1,9 +1,11 @@
 package com.masami.nettyDemo.server;
 
-import com.masami.nettyDemo.codec.PacketDecoder;
+import com.masami.nettyDemo.codec.PacketCoderHandler;
 import com.masami.nettyDemo.codec.PacketEncoder;
 import com.masami.nettyDemo.codec.Spliter;
-import com.masami.nettyDemo.server.handler.*;
+import com.masami.nettyDemo.server.handler.AuthHandler;
+import com.masami.nettyDemo.server.handler.IMServerHandler;
+import com.masami.nettyDemo.server.handler.LoginRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -38,19 +40,12 @@ public class nettyServer {
                 .childHandler(new ChannelInitializer() {
                     protected void initChannel(Channel channel) throws Exception {
                         channel.pipeline().addLast(new Spliter());
-                        channel.pipeline().addLast(new PacketDecoder());
-                        channel.pipeline().addLast(new LoginRequestHandler());
+                        channel.pipeline().addLast(PacketCoderHandler.getInstance());
+                        channel.pipeline().addLast(LoginRequestHandler.getInstance());
                         channel.pipeline().addLast(new AuthHandler());
-                        channel.pipeline().addLast(new MessageRequestHandler());
                         channel.pipeline().addLast(new PacketEncoder());
-                        channel.pipeline().addLast(new CreateGroupRequestHandler());
-                        channel.pipeline().addLast(new LogoutRequestHandler());
-                        channel.pipeline().addLast(new JoinGroupRequestHandler());
+                        channel.pipeline().addLast(new IMServerHandler());
 
-                        channel.pipeline().addLast(new ListGroupMemberRequestHandler());
-                        channel.pipeline().addLast(new QuitGroupRequestHandler());
-
-                        channel.pipeline().addLast(new GroupMessageRequestHandler() );
 
 
                     }
